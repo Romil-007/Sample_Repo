@@ -2,7 +2,11 @@
 
 using namespace std;
 int main(){
-    double a = 10; 
+    int a = 0;
+    int*ptr = &a;
+
+
+    cout<<&a<<"\n"<<ptr;
     
 
     return 0;
