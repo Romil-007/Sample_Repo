@@ -77,12 +77,11 @@ void paranthesis(string s)
 
 int main()
 {
-    string l = "([{{{[]}}}])";
-    if (0 == NULL)
-    {
-        cout << "Hey";
-    }
+    string l;
 
-    // paranthesis(l);
+    cout << "Enter the expression : ";
+    cin >> l;
+
+    paranthesis(l);
     return 0;
 }
