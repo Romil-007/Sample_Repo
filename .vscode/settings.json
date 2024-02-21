@@ -3,6 +3,7 @@
         "iostream": "cpp",
         "typeinfo": "cpp",
         "__bit_reference": "cpp",
-        "__config": "cpp"
+        "__config": "cpp",
+        "string": "cpp"
     }
 }

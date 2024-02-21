@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 class List{
     public:
         int n;//No. of elements
