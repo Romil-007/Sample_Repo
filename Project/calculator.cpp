@@ -134,7 +134,6 @@ int calculate(string infix)
         }
     }
 
-    cout << postfix << "\n";
     IntStack b;
 
     for (int i = 0; i < postfix.length(); i++)
@@ -168,7 +167,6 @@ int calculate(string infix)
         {
             C = b.pop();
             A = b.pop();
-            cout << C / A;
             b.push((A / C));
         }
         else if (postfix[i] == '%')
@@ -182,11 +180,12 @@ int calculate(string infix)
             continue;
         }
     }
+
     return b.peek();
 }
 
 int main()
 {
-    cout << calculate("9-((3*4)+8)/4");
+    cout << calculate("9-((3*4)+8)/4") << "\n";
     return 0;
 }

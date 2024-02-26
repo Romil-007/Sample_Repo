@@ -5,16 +5,16 @@ using namespace std;
 class Node
 {
 public:
-    string val;
+    int val;
     Node *next;
 
     Node()
     {
-        val = "";
+        val = 0;
         next = NULL;
     }
 
-    Node(string val)
+    Node(int val)
     {
         this->val = val;
         next = NULL;
@@ -33,7 +33,7 @@ public:
         n = 0;
     }
 
-    void append(string val)
+    void append(int val)
     {
         Node *temp = new Node(val);
         if (n == 0)
@@ -54,7 +54,7 @@ public:
         n++;
     }
 
-    void insert(string val, string ele) // Value to be inserted after element
+    void insert(int val, int ele) // Value to be inserted after element
     {
         Node *temp = new Node(val);
         Node *curr = head;
@@ -98,7 +98,7 @@ public:
         n--;
         return;
     }
-    bool contains(string val)
+    bool contains(int val)
     {
         Node *curr = head;
 
@@ -113,7 +113,7 @@ public:
 
         return false;
     }
-    void remove(string val)
+    void remove(int val)
     {
         Node *temp = head;
         if (temp->val == val)
@@ -139,8 +139,34 @@ public:
     }
 };
 
+void print(Linkedlist a)
+{
+    cout << "[ ";
+    Node *curr = a.head;
+    do
+    {
+        if (curr->next == a.head)
+        {
+            cout << curr->val << " ]\n";
+            return;
+        }
+        cout << curr->val << " , ";
+
+        curr = curr->next;
+
+    } while (curr != a.head);
+}
+
 int main()
 {
+    Linkedlist l;
 
+    l.append(10);
+    l.append(10);
+    l.append(10);
+    l.append(10);
+    l.append(20);
+    l.remove(20);
+    print(l);
     return 0;
 }

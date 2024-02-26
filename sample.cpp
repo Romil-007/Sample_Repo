@@ -2,91 +2,34 @@
 
 using namespace std;
 
-class CircularQueue
+void insert(int arr[], int index, int val)
 {
-public:
-    int front;
-    int rear;
-    int arr[15];
 
-    CircularQueue()
+    for (int i = 4; i > index; i--)
     {
-        front = -1;
-        rear = -1;
+        arr[i] = arr[i - 1];
     }
-    void enqueue(int val)
-    {
-        if ((front == 0 && rear == 14) || (rear == front - 1))
-        {
-            cout << "OVERFLOW";
-            return;
-        }
-        if (rear == -1 && front == -1)
-        {
-            front = rear = 0;
-        }
-        else if (rear == 14 && front != 0)
-        {
-            rear = 0;
-        }
-        else
-        {
-            rear++;
-        }
-        arr[rear] = val;
-    }
+    arr[index] = val;
+    return;
+}
 
-    int peek()
-    {
-        return arr[front];
-    }
-
-    int dequeue()
-    {
-
-        int a = arr[front];
-        arr[front] = -1;
-        if (front == 14 && rear != 0)
-        {
-            front = 0;
-        }
-        else if (front == rear)
-        {
-            front = rear = -1;
-            return -1;
-        }
-        else
-        {
-            front++;
-        }
-
-        return a;
-    }
-};
 int main()
 {
-    CircularQueue q;
+    int arr[5];
+    arr[0] = 10;
+    arr[1] = 20;
+    arr[2] = 30;
+    arr[3] = 40;
 
-    q.enqueue(1);
-    q.enqueue(2);
-    q.enqueue(3);
-    q.enqueue(4);
-    q.enqueue(5);
-    q.enqueue(6);
-    q.enqueue(7);
-    q.enqueue(8);
-    q.enqueue(9);
-
-    cout << q.dequeue() << "\n";
-    cout << q.dequeue() << "\n";
-    cout << q.dequeue() << "\n";
-    cout << q.dequeue() << "\n";
-    cout << q.dequeue() << "\n";
-
-    q.enqueue(5);
-    q.enqueue(5);
-    q.enqueue(5);
-    q.enqueue(5);
-
+    for (int i = 0; i < 5; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    insert(arr, 2, 25);
+    cout << " \n";
+    for (int i = 0; i < 5; i++)
+    {
+        cout << arr[i] << " ";
+    }
     return 0;
 }
