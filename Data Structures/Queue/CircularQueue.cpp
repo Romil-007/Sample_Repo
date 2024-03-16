@@ -35,7 +35,7 @@ public:
         {
             front = rear = 0;
         }
-        else if (rear == n - 1 && front != 0)
+        else if (rear == n - 1)
         {
             rear = 0;
         }

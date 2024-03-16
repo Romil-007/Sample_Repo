@@ -186,6 +186,6 @@ int calculate(string infix)
 
 int main()
 {
-    cout << calculate("9-((3*4)+8)/4") << "\n";
+    cout << calculate("((9-((3*4)+8)/4))") << "\n";
     return 0;
 }

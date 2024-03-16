@@ -1,146 +1,191 @@
-#include <iostream>
+/*1.Round-Robin Scheduling: (Please follow the different constraints as
+discussed in the class)
+-Simulate a round-robin scheduling for a set of users in an department for
+printing task.
+-Users are represented by nodes in a circular linked list, and each iteration
+of the algorithm selects the next user in the circle.
+-Other customisations if you want to add*/
 
+#include <iostream>
+#include <string>
 using namespace std;
 
-class Node
+class Task
 {
 public:
-    string val;
-    Node *next;
-
-    Node()
+    string name;
+    float minutes;
+    Task *next;
+    Task()
     {
-        val = "";
-        next = NULL;
-    }
-
-    Node(string val)
-    {
-        this->val = val;
+        float time;
+        cout << "Enter User name: ";
+        cin >> name;
+        cout << "Enter time for the user(in hour): ";
+        cin >> time;
+        minutes = time * 60;
         next = NULL;
     }
 };
 
-class Linkedlist
+Task *createList(int n)
 {
-public:
-    Node *head;
-    int n;
-
-    Linkedlist()
+    Task *start = NULL;
+    Task *ptr = NULL;
+    for (int i = 0; i < n; i++)
     {
-        head = NULL;
-        n = 0;
-    }
-
-    void append(string val)
-    {
-        Node *temp = new Node(val);
-        if (n == 0)
+        Task *newTask = new Task();
+        if (start == NULL)
         {
-            head = temp;
-            temp->next = head;
+            start = newTask;
+            ptr = newTask;
         }
         else
         {
-            Node *curr = head;
-            while (curr->next != head)
-            {
-                curr = curr->next;
-            }
-            temp->next = curr->next;
-            curr->next = temp;
+            ptr->next = newTask;
+            ptr = ptr->next;
         }
-        n++;
     }
+    ptr->next = start;
+    return start;
+}
 
-    void insert(string val, string ele) // Value to be inserted after element
+void scheduling(Task *&a, float &n)
+{
+    float b;
+    cout << "Enter the number of hours per round: ";
+    cin >> b;
+    b = b * 60;
+    while (b >= n || b <= 0.0)
     {
-        Node *temp = new Node(val);
-        Node *curr = head;
-
-        while (curr->next != head)
-        {
-            if (curr->val == ele)
-            {
-                break;
-            }
-            curr = curr->next;
-        }
-
-        temp->next = curr->next;
-        curr->next = temp;
-        n++;
+        cout << "Invalid time. Enter the number of hours per round: ";
+        cin >> b;
     }
-    void pop()
+    Task *ptr = a;
+    Task *preptr = ptr;
+    Task *temp = ptr;
+    if (a == NULL)
     {
-        if (n == 0)
+        cout << "No users available for scheduling.\n";
+        return;
+    }
+    else
+    {
+        while (n > 0.0 && a != NULL)
         {
-            return;
-        }
-        else
-        {
-            if (n == 1)
+            if (ptr->minutes <= b)
             {
-                head = NULL;
+                if (ptr->minutes > n)
+                {
+                    ptr->minutes -= n;
+                    n = 0.0;
+                }
+                else
+                {
+                    n -= ptr->minutes;
+                    ptr->minutes = 0;
+                }
             }
             else
             {
-                Node *curr = head;
-                while (curr->next->next != head)
-                {
-                    curr = curr->next;
-                }
-
-                curr->next = head;
+                ptr->minutes -= b;
+                n -= b;
             }
-        }
-        n--;
-        return;
-    }
-    bool contains(string val)
-    {
-        Node *curr = head;
-
-        while (curr != NULL)
-        {
-            if (curr->val == val)
+            if (ptr->minutes <= 0.0)
             {
-                return true;
+                cout << "User " << ptr->name << " task completed successfully\n";
+                if (ptr == a && ptr->next == a)
+                {
+                    delete ptr;
+                    a = NULL;
+                    cout << "All users work is done\nTotal time left: " << n / 60 << endl;
+                    return;
+                }
+                if (ptr->next == a)
+                {
+                    preptr->next = a;
+                }
+                else if (ptr == a)
+                {
+                    temp = ptr;
+                    while (temp->next != a)
+                    {
+                        temp = temp->next;
+                    }
+                    a = ptr->next;
+                    temp->next = a;
+                }
+                else
+                {
+                    preptr->next = ptr->next;
+                }
+                temp = ptr;
+                ptr = ptr->next;
+                cout << temp->name << " \n"; // tezting phase
+                delete temp;
             }
-            curr = curr->next;
+            else
+            {
+                preptr = ptr;
+                ptr = ptr->next;
+            }
         }
-
-        return false;
+        if (n <= 0.0 && a != NULL)
+        {
+            cout << "Time over\n";
+            ptr = a;
+            do
+            {
+                if (ptr == a && ptr->next == a)
+                {
+                    cout << "User " << ptr->name << " work is left(" << (ptr->minutes) / 60 << " hours)\n";
+                    return;
+                }
+                cout << "User " << ptr->name << " work is left(" << (ptr->minutes) / 60 << " hours)\n";
+                ptr = ptr->next;
+            } while (ptr->next != a);
+        }
     }
-    void remove(string val)
+}
+
+void deleteList(Task *&a)
+{
+    if (a == NULL)
     {
-        Node *temp = head;
-        if (temp->val == val)
-        {
-            head = head->next;
-            n--;
-            return;
-        }
-        Node *prev = head;
-        while (temp->val != val)
-        {
-            prev = temp;
-            temp = temp->next;
-        }
-        prev->next = temp->next;
-        n--;
         return;
     }
-
-    int len()
+    Task *ptr = a;
+    Task *temp = NULL;
+    do
     {
-        return n;
-    }
-};
+        temp = ptr;
+        ptr = ptr->next;
+        delete temp;
+    } while (ptr != a);
+    a = NULL;
+}
 
 int main()
 {
-
+    float time;
+    cout << "Enter total printing time available(in hour): ";
+    cin >> time;
+    while (time <= 0.0)
+    {
+        cout << "Invalid time. Enter total appropriate time(in hour): ";
+        cin >> time;
+    }
+    time = time * 60;
+    int n;
+    cout << "Enter number of users: ";
+    cin >> n;
+    while (n <= 0)
+    {
+        cout << "Invalid number of users. Enter appropriate number of users: ";
+        cin >> n;
+    }
+    Task *start = createList(n);
+    scheduling(start, time);
+    deleteList(start);
     return 0;
 }
